@@ -21,6 +21,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_internet_gateway" "igw" {
+  count = var.enable_natgw ? 1 : 0
   vpc_id = aws_vpc.main.id
 
   tags = {

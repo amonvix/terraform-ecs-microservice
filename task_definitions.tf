@@ -1,4 +1,5 @@
 resource "aws_ecs_task_definition" "app_task" {
+  count = var.enable_ecs ? 1 : 0
   family                   = "${var.project_name}-task"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
