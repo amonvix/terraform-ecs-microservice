@@ -8,6 +8,13 @@
 # Used to distribute subnets and ensure high availability
 data "aws_availability_zones" "available" {}
 
+module "budget" {
+  count        = var.enable_budget ? 1 : 0
+  source       = "./modules/budget"
+  limit_amount = var.budget_limit_usd
+  emails       = var.budget_emails
+}
+
 # (Optional) Add a local block if needed later
 # locals {
 #   project_name = "ecs-microservices"
