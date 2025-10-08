@@ -1,4 +1,18 @@
-# .github/workflows/terraform-ci.yml
+name: terraform-ci
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths: [ '**/*.tf', '.terraform.lock.hcl', 'modules/**' ]
+  push:
+    branches: [ main ]
+    paths: [ '**/*.tf', '.terraform.lock.hcl', 'modules/**' ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
   validate-security:
     runs-on: ubuntu-latest
     steps:
@@ -12,14 +26,56 @@
         run: terraform init -backend=false
       - name: Terraform validate
         run: terraform validate
-
-      # ⬇️ AQUI: ajustar a versão do action
       - name: tfsec
         uses: aquasecurity/tfsec-action@v2
         with:
           soft_fail: false
-
       - name: Checkov
         uses: bridgecrewio/checkov-action@v12
         with:
           directory: .
+
+  plan:
+    if: github.event_name == 'pull_request'
+    needs: [validate-security]
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_OIDC_TERRAFORM }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Terraform init
+        run: terraform init -input=false
+      - name: Terraform plan
+        run: terraform plan -out=plan.out -input=false -no-color
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: plan.out
+
+  apply:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [validate-security]
+    runs-on: ubuntu-latest
+    environment: { name: production }
+    env:
+      AWS_REGION: us-east-1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_OIDC_TERRAFORM }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Terraform init
+        run: terraform init -input=false
+      - name: Terraform apply
+        run: terraform apply -auto-approve -input=false
