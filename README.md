@@ -1,89 +1,138 @@
-# ✨ AWS Terraform ECS Microservices Suite
+# terraform-ecs-microservice
 
-> _"Automate with precision. Deploy with elegance. Dream in YAML, execute in JSON, and document in Markdown."_
-> — GG, DevOps Philosopher
+Infrastructure as Code (IaC) project to provision and deploy a multi-container microservices architecture on AWS using Terraform and ECS.
+
+This repository defines a complete production-ready environment with:
+- VPC and networking
+- ECS Cluster
+- Task Definitions for multiple services
+- IAM Roles
+- Security Groups
+- Modular Terraform structure
 
 ---
 
-## 🌐 Overview
+## 🎯 Purpose
 
-This project provisions a **complete AWS infrastructure** to deploy **three isolated microservices** using **Docker, ECS Fargate, and Terraform only**.
+This project demonstrates how to:
+- Provision cloud infrastructure using Terraform
+- Deploy multiple containerized microservices on AWS ECS
+- Organize Terraform code using reusable modules
+- Apply DevOps and Cloud best practices in a real-world setup
 
-No manual setup. No fragile hacks. Just pure Infrastructure as Code — scalable, reproducible, and production-ready.
+It is designed as a portfolio project to showcase:
+- Cloud architecture
+- Infrastructure as Code
+- Container orchestration
+- AWS resource management
 
 ---
 
 ## 🧱 Architecture Overview
 
-**Terraform (IaC)** + **Dockerized Services** + **ECS Fargate**
+The infrastructure provisions:
+- **VPC** with public and private networking
+- **ECS Cluster** to run microservices
+- **ECR Images** (external to Terraform – built and pushed beforehand)
+- **Task Definitions** for each service
+- **IAM Roles** for ECS execution and tasks
+- **Security Groups** for controlled access
+- **Service definitions** to keep containers alive
 
-┌────────────┐ ┌─────────────┐ ┌────────────────────┐
-│ VPC + SG │──────▶│ ALB │──────▶│ 3 Microservices │
-└────────────┘ └─────────────┘ └────────────────────┘
-▲
-Provisioned by Terraform
+High-level flow:
 
----
-
-## 🔥 Live Services
-
-| Service                   | Description                            | Public URL                                                 |
-| ------------------------- | -------------------------------------- | ---------------------------------------------------------- |
-| 🛳️ **Titanic Survival**   | ML model predicting passenger survival | [http://100.26.100.119:8001/](http://100.26.100.119:8001/) |
-| ⚙️ **FastAPI CRUD**       | Python-based CRUD using FastAPI        | [http://100.26.100.119:8002/](http://100.26.100.119:8002/) |
-| ☕ **Java CRUD (Spring)** | Java CRUD app with Spring Boot         | [http://100.26.100.119:8080/](http://100.26.100.119:8080/) |
+Local Machine → Terraform → AWS API → ECS Cluster → Containers running microservices
 
 ---
 
-## 📦 Infrastructure Modules
+## 📂 Project Structure
 
-- `main.tf` → Clean entrypoint with technical documentation
-- `vpc.tf` → Custom VPC, subnets, NAT, routing tables
-- `cluster.tf` → ECS Fargate Cluster (scalable & stateless)
-- `security.tf` & `roles.tf` → Fine-tuned IAM roles and Security Groups
-- `task_definitions.tf` → Independent Dockerized service specs
-- `service.tf` → ECS services behind ALB with health checks & autoscaling
+.
+├── Makefile
+├── README.md
+├── cluster.tf
+├── main.tf
+├── outputs.tf
+├── provider.tf
+├── roles.tf
+├── security.tf
+├── service.tf
+├── task_definitions.tf
+├── terraform.tfvars
+├── variables.tf
+├── vpc.tf
+└── modules/
+    └── budget/
+        └── main.tf
 
 ---
 
-## 🚀 Quick Start
+## 📁 File Responsibilities
 
-```bash
-terraform init
-terraform apply
-The entire infrastructure — VPC, ALB, ECS, and services — comes online with a single command.
+provider.tf – AWS provider configuration  
+variables.tf – Input variables  
+terraform.tfvars – Environment-specific values  
+vpc.tf – Networking (VPC, subnets, routing)  
+cluster.tf – ECS Cluster definition  
+task_definitions.tf – ECS task definitions  
+service.tf – ECS services  
+roles.tf – IAM roles and policies  
+security.tf – Security groups  
+outputs.tf – Terraform outputs  
+modules/budget – Cost control / budget module  
+Makefile – Automation shortcuts  
 
-🔧 Tech Stack
-    Terraform (0.15+)
+---
 
-    Docker
+## ⚙️ Requirements
 
-    AWS ECS Fargate
+- Terraform >= 1.x  
+- AWS CLI configured  
+- AWS account with permissions for ECS, ECR, IAM, VPC and CloudWatch  
+- Docker images already pushed to ECR  
 
-    ALB, IAM, SSM, SG, VPC
+---
 
-    GitHub Flow
+## 🚀 How to Run
 
-    ✅ Project Status
+terraform init  
+terraform plan  
+terraform apply  
 
-    ✅ AWS infrastructure fully provisioned
+To destroy everything:
 
-    ✅ All 3 containers running live
+terraform destroy  
 
-    ✅ URLs publicly available and tested
+---
 
-    🛠️ Ready for monitoring, logging, and CI/CD
+## 🔐 Security & Costs
 
-    🤝 Contributions
-This project is more than code. It’s a declaration of clean DevOps.
-Feel free to fork, suggest improvements, or use it as inspiration for your own infrastructure journey.
+- IAM roles follow least privilege principle  
+- Security groups restrict inbound access  
+- Budget module helps prevent unexpected cloud costs  
 
-“Infrastructure is not just architecture. It's intention made executable.”
+---
 
-📬 Contact
-Built with passion by Daniel Pedroso
-📧 Email: hspedroso@gmail.com
-🌐 LinkedIn -> www.linkedin.com/in/daniel-alexandre-pedroso-49993934
+## 🧠 Design Decisions
 
+- Terraform modules used for reusable components  
+- ECS chosen for managed container orchestration  
+- Infrastructure separated by responsibility files for maintainability  
+- No hardcoded secrets (everything via variables)  
 
+---
 
+## 🛠 Future Improvements
+
+- Remote backend with S3 + DynamoDB lock  
+- CI/CD pipeline for Terraform  
+- Blue/Green deployment strategy  
+- Auto Scaling policies for ECS services  
+- Observability stack (CloudWatch + tracing)  
+
+---
+
+## 📌 Status
+
+Project is under active development and continuous refactoring.  
+This repository is part of a personal DevOps & Cloud portfolio.
