@@ -48,25 +48,24 @@ Local Machine → Terraform → AWS API → ECS Cluster → Containers running m
 ## 📂 Project Structure
 
 ```mermaid
-mindmap
-  root((terraform-ecs-microservice))
-    .github
-    .vscode
-    modules
-      budget
-        main.tf
-    cluster.tf
-    main.tf
-    Makefile
-    outputs.tf
-    provider.tf
-    roles.tf
-    security.tf
-    service.tf
-    task_definitions.tf
-    terraform.tfvars
-    variables.tf
-    vpc.tf
+flowchart TD
+  A[terraform-ecs-microservice] --> B[.github]
+  A --> C[.vscode]
+  A --> D[modules]
+  D --> E[budget]
+  E --> F[main.tf]
+  A --> G[cluster.tf]
+  A --> H[main.tf]
+  A --> I[Makefile]
+  A --> J[outputs.tf]
+  A --> K[provider.tf]
+  A --> L[roles.tf]
+  A --> M[security.tf]
+  A --> N[service.tf]
+  A --> O[task_definitions.tf]
+  A --> P[terraform.tfvars]
+  A --> Q[variables.tf]
+  A --> R[vpc.tf]
 ```
 
 ---
