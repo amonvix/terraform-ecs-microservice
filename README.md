@@ -47,23 +47,27 @@ Local Machine → Terraform → AWS API → ECS Cluster → Containers running m
 
 ## 📂 Project Structure
 
-.
-├── Makefile
-├── README.md
-├── cluster.tf
-├── main.tf
-├── outputs.tf
-├── provider.tf
-├── roles.tf
-├── security.tf
-├── service.tf
-├── task_definitions.tf
-├── terraform.tfvars
-├── variables.tf
-├── vpc.tf
-└── modules/
-    └── budget/
-        └── main.tf
+```mermaid
+mindmap
+  root((terraform-ecs-microservice))
+    .github
+    .vscode
+    modules
+      budget
+        main.tf
+    cluster.tf
+    main.tf
+    Makefile
+    outputs.tf
+    provider.tf
+    roles.tf
+    security.tf
+    service.tf
+    task_definitions.tf
+    terraform.tfvars
+    variables.tf
+    vpc.tf
+```
 
 ---
 
