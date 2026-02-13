@@ -1,36 +1,40 @@
 # terraform-ecs-microservice
 
-Infrastructure as Code (IaC) project to provision and deploy a multi-container microservices architecture on AWS using Terraform and ECS.
+Projeto de Infraestrutura como Código (IaC) para provisionar e implantar uma arquitetura de microserviços multi-container na AWS usando Terraform e ECS.
 
-This repository defines a complete production-ready environment with:
-- VPC and networking
-- ECS Cluster
-- Task Definitions for multiple services
+Este repositório define um ambiente completo, pronto para produção, com:
+
+- VPC e rede
+- Cluster ECS
+- Task Definitions para múltiplos serviços
 - IAM Roles
 - Security Groups
-- Modular Terraform structure
+- Estrutura modular em Terraform
 
 ---
 
-## 🎯 Purpose
+## 🎯 Propósito
 
-This project demonstrates how to:
-- Provision cloud infrastructure using Terraform
-- Deploy multiple containerized microservices on AWS ECS
-- Organize Terraform code using reusable modules
-- Apply DevOps and Cloud best practices in a real-world setup
+Este projeto demonstra como:
 
-It is designed as a portfolio project to showcase:
-- Cloud architecture
-- Infrastructure as Code
-- Container orchestration
-- AWS resource management
+- Provisionar infraestrutura em nuvem com Terraform
+- Implantar múltiplos microserviços containerizados no AWS ECS
+- Organizar código Terraform usando módulos reutilizáveis
+- Aplicar boas práticas de DevOps e Cloud em um cenário real
+
+Projeto de portfólio para demonstrar:
+
+- Arquitetura em nuvem
+- Infraestrutura como Código (IaC)
+- Orquestração de containers
+- Gerenciamento de recursos na AWS
 
 ---
 
 ## 🧱 Architecture Overview
 
 The infrastructure provisions:
+
 - **VPC** with public and private networking
 - **ECS Cluster** to run microservices
 - **ECR Images** (external to Terraform – built and pushed beforehand)
@@ -83,16 +87,16 @@ roles.tf – IAM roles and policies
 security.tf – Security groups  
 outputs.tf – Terraform outputs  
 modules/budget – Cost control / budget module  
-Makefile – Automation shortcuts  
+Makefile – Automation shortcuts
 
 ---
 
 ## ⚙️ Requirements
 
-- Terraform >= 1.x  
-- AWS CLI configured  
-- AWS account with permissions for ECS, ECR, IAM, VPC and CloudWatch  
-- Docker images already pushed to ECR  
+- Terraform >= 1.x
+- AWS CLI configured
+- AWS account with permissions for ECS, ECR, IAM, VPC and CloudWatch
+- Docker images already pushed to ECR
 
 ---
 
@@ -100,38 +104,38 @@ Makefile – Automation shortcuts
 
 terraform init  
 terraform plan  
-terraform apply  
+terraform apply
 
 To destroy everything:
 
-terraform destroy  
+terraform destroy
 
 ---
 
 ## 🔐 Security & Costs
 
-- IAM roles follow least privilege principle  
-- Security groups restrict inbound access  
-- Budget module helps prevent unexpected cloud costs  
+- IAM roles follow least privilege principle
+- Security groups restrict inbound access
+- Budget module helps prevent unexpected cloud costs
 
 ---
 
 ## 🧠 Design Decisions
 
-- Terraform modules used for reusable components  
-- ECS chosen for managed container orchestration  
-- Infrastructure separated by responsibility files for maintainability  
-- No hardcoded secrets (everything via variables)  
+- Terraform modules used for reusable components
+- ECS chosen for managed container orchestration
+- Infrastructure separated by responsibility files for maintainability
+- No hardcoded secrets (everything via variables)
 
 ---
 
 ## 🛠 Future Improvements
 
-- Remote backend with S3 + DynamoDB lock  
-- CI/CD pipeline for Terraform  
-- Blue/Green deployment strategy  
-- Auto Scaling policies for ECS services  
-- Observability stack (CloudWatch + tracing)  
+- Remote backend with S3 + DynamoDB lock
+- CI/CD pipeline for Terraform
+- Blue/Green deployment strategy
+- Auto Scaling policies for ECS services
+- Observability stack (CloudWatch + tracing)
 
 ---
 
